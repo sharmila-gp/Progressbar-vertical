@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress bar</title>
+    <style>
+            body {
+                text-align: center;
+             }
+             h1{
+                color:rgb(179, 36, 14)
+             }
+            #progress{
+                margin: 20px auto;
+                background-color: bisque;
+                width: 80%;
+                height: 20px;
+                }
+                #bar{
+                    background-color: rgb(252, 188, 91);
+                    width:1%;
+                    height:20px
+                }
+                #loading{
+                    color:rgb(193, 89, 14);
+                    font-size: 20px;
+                    font-weight:bold;
+                }
+</style>
+</head>
+<body>
+    <h1>Downloading progress bar</h1>
+    <div id="progress">
+        <div id="bar">
+
+        </div>
+    </div>
+    <p id="loading"></p>
+
+    <script>
+        let loading=document.getElementById("loading");
+        let bar=document.getElementById("bar");
+        let barwidth=0;
+        const download=()=>{
+            barwidth++;
+            bar.style.width=`${barwidth}%`;
+            loading.innerHTML= (barwidth==100)?`${barwidth}% completed`:`${barwidth}% Progressing`;
+        }
+        setTimeout(()=>{
+            let intervalId = setInterval(()=>
+            { if(barwidth==100){
+             clearInterval(intervalId);   
+            }
+            else{
+                download();
+            }
+        },100);
+        },1000);
+
+        function downloading(url,process){
+            setTimeout(()=>{
+                console.log(`Downloading ${url}`);
+                process(url);
+            },1000);
+            
+        }
+        
+        const address="https://google.com/";
+        const address1="https://youtube.com/";
+        const address2="https://facebook.com/";
+        downloading(address,(url)=>{
+            console.log(`processing ${url}`);
+            downloading(address1,(url)=>{
+            console.log(`processing ${url}`);
+                downloading(address2,(url)=>{
+                console.log(`processing ${url}`);
+                });
+            }); 
+        });
+    </script>
+</body>
+</html>
